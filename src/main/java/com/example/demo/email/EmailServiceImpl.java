@@ -49,7 +49,7 @@ public class EmailServiceImpl implements EmailService{
         String subject = "🤨🧐This you???";
         message.setFrom(FROM_EMAIL);
         String body = "Recent login into ur account: " + user.getName() +
-                "on Q-Events. \n I can't do anything about it, just letting you now upfront";
+                " on Q-Events. \n I can't do anything about it, just letting you now upfront";
         message.setText(body);
 
         message.setSubject(subject);
@@ -66,10 +66,10 @@ public class EmailServiceImpl implements EmailService{
 
         String body = "Details for your event: " + event.getTitel() +
                 "\n\n Details: " +
-                "\n Titel: " + event.getTitel()+
-                "\n Omschrijving: " + event.getTitel() +
-                "\nLocatie: " + event.getLocatie().toString()+
-                "\nDatum: " + event.getTitel() +
+                "\n • Titel: " + event.getTitel()+
+                "\n • Omschrijving: " + event.getTitel() +
+                "\n • Locatie: " + event.getLocatie().toString()+
+                "\n • Datum: " + event.getTitel() +
                 " For your information";
 
         message.setFrom(FROM_EMAIL);
@@ -88,10 +88,10 @@ public class EmailServiceImpl implements EmailService{
 
         String body = "Details changed for your meeting: " + event.getTitel() +
                 "\n\n New Details: " +
-                "\n Titel: " + event.getTitel()+
-                "\n Omschrijving: " + event.getTitel() +
-                "\nLocatie: " + event.getLocatie().toString()+
-                "\nDatum: " + event.getTitel() +
+                "\n • Titel: " + event.getTitel()+
+                "\n • Omschrijving: " + event.getTitel() +
+                "\n • Locatie: " + event.getLocatie().toString()+
+                "\n • Datum: " + event.getTitel() +
                 " For your information";
 
         message.setFrom(FROM_EMAIL);

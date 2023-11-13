@@ -1,6 +1,5 @@
 package com.example.demo.user;
 
-import com.example.demo.event.Event;
 
 import java.util.List;
 import java.util.Optional;

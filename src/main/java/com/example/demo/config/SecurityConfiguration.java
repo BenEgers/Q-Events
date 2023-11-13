@@ -32,7 +32,6 @@ public class SecurityConfiguration {
                         .ignoringRequestMatchers(toH2Console()).disable())
 
                 .authorizeHttpRequests(auth -> auth
-                        .requestMatchers(toH2Console()).permitAll()
                         .requestMatchers(mvcRequestMatcher.pattern("/api/**")).permitAll()
                         .anyRequest().authenticated()
                 );

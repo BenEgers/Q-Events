@@ -15,12 +15,14 @@ public class UserController {
 
     private final UserServiceImpl userService;
 
+    private final PasswordEncoder passwordEncoder;
 
-    public UserController(UserServiceImpl userService ) {
+    public UserController(UserServiceImpl userService, PasswordEncoder passwordEncoder) {
         this.userService = userService;
+        this.passwordEncoder = passwordEncoder;
     }
 
-    @GetMapping("/{name}")
+    @GetMapping("/find/{name}")
     public Optional<User> getUserByName(@PathVariable ("name") String name){
         return userService.findUser(name);
     }
@@ -52,7 +54,7 @@ public class UserController {
         List<Event> events = new ArrayList<>();
         List<Event> ownEvents = new ArrayList<>();
         String password = "1234";
-        String encryptedPassword = "1234";
+        String encryptedPassword = passwordEncoder.encode(password);
         User user1 = new User(1,
                 "Ben Franklin", "bfranklin@gmail.com",
                 encryptedPassword, ownEvents, events)
@@ -61,19 +63,19 @@ public class UserController {
                 "Ben Egers", "beagers@qualogy.com",
                 encryptedPassword, ownEvents, events)
         ;
-        User user3 = new User(3,
-                        "Kevin Sewkaransingh", "ksewkaransingh@qualogy.com",
+        User user3 = new User(100,
+                        "Rajeev", "rharpal@qualogy.com",
                         encryptedPassword, ownEvents, events);
         User user4 = new User(4,
                         "Jimmy Karpatoe", "jkarpatoe@qualogy.com",
                         encryptedPassword, ownEvents, events)
                 ;
         User user5 = new User(5,
-                        "Miguel Lachman", "mlachman@qualogy.com",
+                        "Miguel Lachman", "milachman@qualogy.com",
                         encryptedPassword, ownEvents, events)
                 ;
 
-        userService.createUser(user1);
+//        userService.createUser(user1);
 //        userService.createUser(user2);
 //        userService.createUser(user3);
 //        userService.createUser(user4);
