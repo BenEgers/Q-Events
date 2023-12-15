@@ -40,7 +40,7 @@ public class FileController {
         return fileEntityService.getFilesByEventId(eventId);
     }
     @PostMapping("/{eventId}")
-    public ResponseEntity<FileDTO> uploadFile(@RequestParam MultipartFile file, @PathVariable("eventId") Integer eventId) throws IOException {
+    public ResponseEntity<FileDTO> uploadFile(@RequestParam MultipartFile file, @PathVariable("eventId") Integer eventId) {
         try {
             FileEntity fileEntity = new FileEntity();
             fileEntity.setFileName(file.getOriginalFilename());
@@ -51,7 +51,7 @@ public class FileController {
 
             return ResponseEntity.ok(this.mapper.toFileDTO(savedFile));
         } catch (IOException e) {
-//            e.printStackTrace();
+            e.printStackTrace();
             return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).build();
         }
 

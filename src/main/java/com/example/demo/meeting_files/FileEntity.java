@@ -19,8 +19,8 @@ public class FileEntity {
     private String fileName;
 
     private Integer eventId;
+
     @Lob
-//    @Basic(fetch = FetchType.EAGER)
     private byte[] fileData;
 
     public FileEntity(Long id, String fileName, Integer eventId) {

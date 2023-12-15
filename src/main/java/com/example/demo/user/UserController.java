@@ -1,6 +1,5 @@
 package com.example.demo.user;
 
-import com.example.demo.email.EmailService;
 import com.example.demo.mappers.UserMapper;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.web.bind.annotation.*;

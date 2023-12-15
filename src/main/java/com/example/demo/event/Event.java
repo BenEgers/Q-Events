@@ -36,9 +36,6 @@ public class Event {
     @ManyToMany(targetEntity = User.class, fetch = FetchType.EAGER)
     @JoinColumn(nullable = true, name = "deelnemers")
     private Set<User> deelnemers;
-//    @OneToMany(fetch = FetchType.EAGER)
-//    @JoinColumn(nullable = true, name = "files")
-//    private Set<FileEntity> files;
 
     public Event(String titel, String omschrijving, Locatie locatie, String dateTime, User organizer) {
         this.titel = titel;

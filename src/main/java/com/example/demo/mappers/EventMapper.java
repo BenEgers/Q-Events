@@ -50,14 +50,6 @@ public class EventMapper {
         .map(userMapper::toUserDto)
         .collect(Collectors.toSet());
 
-//        Set<FileDTO> files;
-//        if(event.getFiles() != null){
-//            files = event.getFiles().stream().map(this::toFileDTO).collect(Collectors.toSet());
-//        } else{
-//            files = new HashSet<>();
-//        }
-
-
         return new EventDTO(id, titel, omschrijving, locatie, dateTime, organizer, deelnemers);
     }
 
@@ -77,13 +69,6 @@ public class EventMapper {
             return new User(userDTO.getId());
         })
         .collect(Collectors.toSet());
-
-//        Set<FileEntity> files;
-//        if(event.getFiles() != null){
-//            files  = event.getFiles().stream().map(this::toFile).collect(Collectors.toSet());
-//        } else {
-//            files = new HashSet<>();
-//        }
 
         return new Event(id, titel, omschrijving, locatie, dateTime, organizer, deelnemers);
     }
