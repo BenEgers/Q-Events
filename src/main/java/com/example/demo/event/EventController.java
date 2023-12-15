@@ -1,48 +1,70 @@
 package com.example.demo.event;
 
-import com.example.demo.user.User;
-import jakarta.annotation.PostConstruct;
-import org.springframework.http.ResponseEntity;
+import com.example.demo.mappers.EventMapper;
 import org.springframework.web.bind.annotation.*;
 
-import java.net.URI;
-import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
+import java.util.stream.Collectors;
 
 @RestController
 @RequestMapping("api/events")
 public class EventController {
 
-    private final EventServiceImpl eventService;
+    private final EventService eventService;
+    private final EventMapper mapper;
 
-    public EventController(EventServiceImpl eventService) {
+    public EventController(EventService eventService, EventMapper mapper) {
         this.eventService = eventService;
+        this.mapper = mapper;
     }
 
     @GetMapping("/{titel}")
-    public Optional<Event> getEvent(@PathVariable("titel") String titel){
-        return eventService.findEvent(titel);
+    public Optional<EventDTO> getEvent(@PathVariable("titel") String titel){
+        return eventService.findEvent(titel).map(mapper::toEventDto);
+    }
+    @GetMapping("/find/{id}")
+    public Optional<EventDTO> getEventById(@PathVariable("id") Integer id){
+        return eventService.findEvent(id).map(mapper::toEventDto);
+    }
+    @GetMapping("/search/{titel}")
+    public List<EventDTO> searchEventContaining(@PathVariable("titel") String titel){
+        return eventService.searchEvents(titel).stream().map(mapper::toEventDto).collect(Collectors.toList());
     }
 
+    @GetMapping("/user/{id}")
+    public List<EventDTO> getEventsOfUser(@PathVariable("id") Integer organizerId){
+        return eventService.findEventsOfUser(organizerId).stream().map(mapper::toEventDto).collect(Collectors.toList());
+    }
+    @GetMapping("/deelnemer/{id}")
+    public List<EventDTO> getEventsOfDeelnemer(@PathVariable("id") Integer deelnemerId){
+        return eventService.findByDeelnemer(deelnemerId).stream().map(mapper::toEventDto).collect(Collectors.toList());
+    }
     @GetMapping("/all")
-    public List<Event> getAllEvents(){
-        return eventService.findAllEvents();
-
+    public List<EventDTO> getAllEvents(){
+        return eventService.findAllEvents().stream().map(mapper::toEventDto).collect(Collectors.toList());
     }
 
     @PostMapping()
-    public Event createEvent(@RequestBody Event event){
-        return eventService.createEvent(event);
+    public EventDTO createEvent(@RequestBody EventDTO eventDTO){
+        Event eventCreated = eventService.createEvent(mapper.toEvent(eventDTO));
+        return mapper.toEventDto(eventCreated);
     }
 
-    @PutMapping()
-    public Event updateEvent(@RequestBody Event event){
-        return eventService.updateEvent (event);
+    @PutMapping("/update/email")
+    public EventDTO updateEvent(@RequestBody EventDTO eventDTO){
+        Event updatedEevent = eventService.updateEvent(mapper.toEvent(eventDTO));
+        return mapper.toEventDto(updatedEevent);
     }
-    @DeleteMapping()
-    public Integer deleteEvent(@RequestBody Event event){
-        eventService.deleteEvent(event);
+    @PutMapping("/update")
+    public EventDTO updateEventNoEmail(@RequestBody EventDTO eventDTO){
+        Event updatedEevent = eventService.updateEventNoEmail(mapper.toEvent(eventDTO));
+        return mapper.toEventDto(updatedEevent);
+    }
+
+    @DeleteMapping("/{id}")
+    public Integer deleteEvent(@PathVariable("id") Integer eventId){
+        eventService.deleteEvent(eventId);
         return 1;
     }
 

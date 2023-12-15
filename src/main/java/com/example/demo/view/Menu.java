@@ -7,7 +7,7 @@ import com.example.demo.event.EventServiceImpl;
 import com.example.demo.user.User;
 import com.example.demo.user.UserServiceImpl;
 import com.example.demo.view.screens.MenuItemsRepository;
-import org.springframework.security.crypto.password.PasswordEncoder;
+//import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Component;
 
 import java.util.List;
@@ -21,18 +21,18 @@ public class Menu {
     private final EventServiceImpl eventService;
     private final EmailServiceImpl emailService;
     private final MenuItemsRepository menuItemsRepository;
-    private final PasswordEncoder passwordEncoder;
+//    private final PasswordEncoder passwordEncoder;
     Scanner scanner = new Scanner(System.in);
     User user;
     private String[] usersList;
 
     //Dependency injection
-    public Menu(UserServiceImpl userService, EventServiceImpl eventService, EmailServiceImpl emailService, MenuItemsRepository menuItemsRepository, PasswordEncoder passwordEncoder) {
+    public Menu(UserServiceImpl userService, EventServiceImpl eventService, EmailServiceImpl emailService, MenuItemsRepository menuItemsRepository) {
         this.userService = userService;
         this.eventService = eventService;
         this.emailService = emailService;
         this.menuItemsRepository = menuItemsRepository;
-        this.passwordEncoder = passwordEncoder;
+//        this.passwordEncoder = passwordEncoder;
     }
 
     //-----------------------------------Menus-----------------------------------//
@@ -145,12 +145,12 @@ public class Menu {
             return;
         }
 
-        hashedPassword = passwordEncoder.encode(password);
+//        hashedPassword = passwordEncoder.encode(password);
 
         System.out.println("Creating your account....");
-        User newUser = new User(name, email, hashedPassword);
-        user = userService.createUser(newUser);
-        emailService.sendWelcomeEmail(email, user);
+//        User newUser = new User(name, email, hashedPassword);
+//        user = userService.createUser(newUser);
+        emailService.sendWelcomeEmail( user);
         dashboardMenu();
 
     }
@@ -180,16 +180,16 @@ public class Menu {
             userFound = userOptional.get();
         }
 
-        verified = verifyPassword(password, userFound.getPassword());
+//        verified = verifyPassword(password, userFound.getPassword());
 
-        if(!verified) {
-            System.out.println("Invalid credentials, Try again...");
-            loginFlow();
-        }
+//        if(!verified) {
+//            System.out.println("Invalid credentials, Try again...");
+//            loginFlow();
+//        }
 
         System.out.println("Loggin in......");
         user = userFound;
-        emailService.sendLoginEmail(user.getEmail(), user);
+        emailService.sendLoginEmail( user);
         dashboardMenu();
 
     }
@@ -247,8 +247,8 @@ public class Menu {
                     editAccountFlow();
                     break;
                 }
-                String hashedPassword = passwordEncoder.encode(passw1);
-                user.setPassword(hashedPassword);
+//                String hashedPassword = passwordEncoder.encode(passw1);
+//                user.setPassword(hashedPassword);
                 userService.updateUser(user);
                 editAccountFlow();
                 break;
@@ -309,7 +309,7 @@ public class Menu {
         System.out.println("Creating event.....");
         eventService.createEvent(event);
         usersList = getUsersList();
-        emailService.sendEventNotificationEmail(usersList, event);
+        emailService.sendEventNotificationEmail(event);
         viewAllEventsFlow();
 
     }
@@ -376,7 +376,7 @@ public class Menu {
 
 
         usersList = getUsersList();
-        emailService.sendEventUpdateEmail(usersList, event);
+        emailService.sendEventUpdateEmail(event);
 
     }
 
@@ -418,8 +418,8 @@ public class Menu {
         return  usersArray;
     }
 
-    private boolean verifyPassword(String plainPassword, String hashedPassword) {
-        return passwordEncoder.matches(plainPassword, hashedPassword);
-    }
+//    private boolean verifyPassword(String plainPassword, String hashedPassword) {
+//        return passwordEncoder.matches(plainPassword, hashedPassword);
+//    }
 
 }
